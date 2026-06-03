@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Resultados PUI - UNIMET</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border-top: 8px solid #f37021; /* Naranja UNIMET */
+        }
+        .logo-unimet {
+            max-width: 160px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #1e3a8a; /* Azul UNIMET */
+            margin: 5px 0;
+            font-size: 24px;
+        }
+        p.subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        input[type="text"] {
+            width: 85%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+            text-align: center;
+        }
+        input[type="text"]:focus {
+            border-color: #f37021;
+        }
+        button {
+            background-color: #f37021;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 92%;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #d65a12;
+        }
+        .result-box {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+            font-weight: bold;
+        }
+        .success {
+            background-color: #e6f4ea;
+            color: #137333;
+            border: 1px solid #c2e7cb;
+        }
+        .error {
+            background-color: #fce8e6;
+            color: #c5221f;
+            border: 1px solid #fad2cf;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Logo_Unimet.png" alt="Logo UNIMET" class="logo-unimet">
+    
+    <h2>Resultados PUI</h2>
+    <p class="subtitle">Por favor, ingrese su Cédula de Identidad</p>
+    
+    <input type="text" id="cedulaInput" placeholder="Ej: 31985267" onkeypress="checkEnter(event)">
+    <button onclick="buscarResultado()">Consultar</button>
+
+    <div id="resultado" class="result-box"></div>
+</div>
+
+<script src="datos.js"></script>
+<script>
+    function buscarResultado() {
+        const input = document.getElementById('cedulaInput').value.trim();
+        const divResultado = document.getElementById('resultado');
+
+        if (input === "") {
+            divResultado.className = "result-box error";
+            divResultado.innerHTML = "Por favor, introduce un número de cédula.";
+            divResultado.style.display = "block";
+            return;
+        }
+
+        if (estudiantes[input]) {
+            divResultado.className = "result-box success";
+            divResultado.innerHTML = `Información Encontrada:<br><span style="font-size: 22px; display:block; margin-top:5px;">${estudiantes[input]}</span>`;
+        } else {
+            divResultado.className = "result-box error";
+            divResultado.innerHTML = "Cédula no encontrada. Verifique los datos o contacte al departamento.";
+        }
+        
+        divResultado.style.display = "block";
+    }
+
+    function checkEnter(event) {
+        if (event.key === "Enter") {
+            buscarResultado();
+        }
+    }
+</script>
+
+</body>
+</html>
